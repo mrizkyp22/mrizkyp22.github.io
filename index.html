@@ -1,1 +1,109 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ resume_data.fullname }} - Resume</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link the custom CSS file -->
+</head>
+<body class="w3-light-grey">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+      <div class="w3-white w3-text-black w3-card-4">
+        <div class="w3-display-container">
+          <img src="{{ url_for('static', filename='profile_picture.jpg') }}" style="width:100%" alt="Avatar">
+          <div class="w3-display-bottomleft w3-container w3-text-white name-container">
+            <h2>{{ resume_data.fullname }}</h2>
+          </div>
+        </div>
+        <div class="w3-container">
+          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-dark-grey"></i>{{ resume_data.jobTitle }}</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-dark-grey"></i>{{ resume_data.address }}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-dark-grey"></i>{{ resume_data.email }}</p>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-dark-grey"></i>{{ resume_data.phone }}</p>
+          <hr>
+
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-dark-grey"></i>Education</b></p>
+          {% for education in resume_data.education | sort(attribute='year', reverse=true)%}
+          <h5 class="w3-opacity"><b>{{ education.degree }} / {{ education.university }}</b></h5>
+          <h6 class="w3-text-dark-grey"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ education.year }}</h6>
+          <hr>
+          {% endfor %}
+
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-dark-grey"></i>Skills</b></p>
+          {% for skills in resume_data.skills%}
+          <ul class="w3-ul">
+            <li><i class="fa fa-check w3-margin-right"></i>{{ skills }}</li>
+          </ul>
+          {% endfor %}
+          <hr>
+
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-dark-grey"></i>Languages</b></p>
+          {% for languages in resume_data.languages%}
+          <ul class="w3-ul">
+            <li><i class="fa fa-check w3-margin-right"></i>{{ languages }}</li>
+          </ul>
+          {% endfor %}
+        </div>
+      </div><br>
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-dark-grey"></i>Work Experience</h2>
+        <div class="w3-container">
+          {% for exp in resume_data.experience | sort(attribute='duration', reverse=true) %}
+          <h5 class="w3-opacity"><b>{{ exp.title }} / {{ exp.company }}</b></h5>
+          <h6 class="w3-text-dark-grey"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ exp.duration }}</h6>
+          <ul>
+            {% for responsibility in exp.responsibilities %}
+            <li>{{ responsibility }}</li>
+            {% endfor %}
+          </ul>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-dark-grey"></i>Certifications</h2>
+        <div class="w3-container">
+          {% for certification in resume_data.certification | sort(attribute='year', reverse=true)%}
+          <h5 class="w3-opacity"><b>{{ certification.name }}</b></h5>
+          <h6 class="w3-text-dark-grey"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ certification.year }}</h6>
+          <p><strong>Provider:</strong> {{ certification.provider }}</p>
+          <p><strong>Credential:</strong> {{ certification.credential }}</p>
+          <p><strong>Evidence:</strong> <a href="{{ certification.evidence }}" target="_blank">Certification Evidence</a></p>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-black w3-center w3-margin-top">
+  <p>Find me on social media.</p>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <a href="https://www.linkedin.com/in/mrizkyp22/" target="_blank"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+</body>
+</html>
